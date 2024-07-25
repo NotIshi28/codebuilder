@@ -1,109 +1,250 @@
 <html><head>
-<title>Basic Code Builder</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
-  }
-  .container {
-    width: 80%;
-    margin: auto;
-    overflow: hidden;
-    padding: 20px;
-  }
-  header {
-    background: #3498db;
-    color: white;
-    padding-top: 30px;
-    min-height: 70px;
-    border-bottom: #2980b9 3px solid;
-  }
-  header h1 {
-    margin: 0;
-    text-align: center;
-    padding-bottom: 20px;
-  }
-  .code-area {
-    display: flex;
-    margin-top: 20px;
-  }
-  .editor, .preview {
-    flex: 1;
-    margin: 10px;
-    border-radius: 5px;
-    overflow: hidden;
-  }
-  #code-editor, #preview-frame {
-    width: 100%;
-    height: 400px;
-    border: none;
-  }
-  #code-editor {
-    background-color: #2c3e50;
-    color: #ecf0f1;
-    font-family: 'Courier New', Courier, monospace;
-    padding: 10px;
-    resize: vertical;
-  }
-  button {
-    display: block;
-    width: 200px;
-    margin: 20px auto;
-    padding: 10px;
-    background-color: #2ecc71;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-  }
-  button:hover {
-    background-color: #27ae60;
-  }
-  .templates {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-  }
-  .template {
-    padding: 10px;
-    background-color: #3498db;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  .template:hover {
-    background-color: #2980b9;
-  }
-</style>
-</head>
-<body>
-  <header>
+  <title>Basic Code Builder</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    .container {
+      width: 80%;
+      margin: auto;
+      overflow: hidden;
+      padding: 20px;
+    }
+    header {
+      background: #3498db;
+      color: white;
+      padding-top: 30px;
+      min-height: 70px;
+      border-bottom: #2980b9 3px solid;
+    }
+    header h1 {
+      margin: 0;
+      text-align: center;
+      padding-bottom: 20px;
+    }
+    .code-area {
+      display: flex;
+      margin-top: 20px;
+    }
+    .editor, .preview {
+      flex: 1;
+      margin: 10px;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    #code-editor, #preview-frame {
+      width: 100%;
+      height: 400px;
+      border: none;
+    }
+    #code-editor {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      font-family: 'Courier New', Courier, monospace;
+      padding: 10px;
+      resize: vertical;
+    }
+    button {
+      display: block;
+      width: 200px;
+      margin: 20px auto;
+      padding: 10px;
+      background-color: #2ecc71;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #27ae60;
+    }
+    .templates {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 20px;
+    }
+    .template {
+      padding: 10px;
+      background-color: #3498db;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .template:hover {
+      background-color: #2980b9;
+    }
+  </style>
+  </head>
+  <body>
+    <header>
+      <div class="container">
+        <h1>Basic Code Builder</h1>
+      </div>
+    </header>
+  
     <div class="container">
-      <h1>Basic Code Builder</h1>
-    </div>
-  </header>
-
-  <div class="container">
-    <div class="templates">
-      <div class="template" onclick="loadTemplate('blank')">Blank Page</div>
-      <div class="template" onclick="loadTemplate('blog')">Blog Post</div>
-      <div class="template" onclick="loadTemplate('portfolio')">Portfolio</div>
-    </div>
-
-    <div class="code-area">
-      <div class="editor">
-        <textarea id="code-editor" placeholder="Enter your HTML code here..."></textarea>
+      <div class="templates">
+        <div class="template" onclick="loadTemplate('blank')">Blank Page</div>
+        <div class="template" onclick="loadTemplate('blog')">Blog Post</div>
+        <div class="template" onclick="loadTemplate('portfolio')">Portfolio</div>
       </div>
-      <div class="preview">
-        <iframe id="preview-frame"></iframe>
+  
+      <div class="code-area">
+        <div class="editor">
+          <textarea id="code-editor" placeholder="Enter your HTML code here..."></textarea>
+        </div>
+        <div class="preview">
+          <iframe id="preview-frame"></iframe>
+        </div>
       </div>
+  
+      <button onclick="updatePreview()">Update Preview</button>
     </div>
-
-    <button onclick="updatePreview()">Update Preview</button>
-  </div>
-</body>
-</html>
+  
+    <script>
+      function updatePreview() {
+        const code = document.getElementById('code-editor').value;
+        const preview = document.getElementById('preview-frame').contentWindow.document;
+        preview.open();
+        preview.write(code);
+        preview.close();
+      }
+  
+      function loadTemplate(type) {
+        let template = '';
+        switch(type) {
+          case 'blank':
+            template = `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>My Web Page</title>
+  </head>
+  <body>
+      <h1>Welcome to My Web Page</h1>
+      <p>This is a blank template. Start adding your content here!</p>
+  </body>
+  </html>
+            `;
+            break;
+          case 'blog':
+            template = `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>My Blog Post</title>
+      <style>
+          body {
+              font-family: Arial, sans-serif;
+              line-height: 1.6;
+              margin: 0;
+              padding: 20px;
+              max-width: 800px;
+              margin: auto;
+          }
+          header {
+              background-color: #f4f4f4;
+              padding: 1rem;
+              text-align: center;
+          }
+          .post-meta {
+              color: #777;
+              margin-bottom: 1rem;
+          }
+      </style>
+  </head>
+  <body>
+      <header>
+          <h1>My Awesome Blog</h1>
+      </header>
+      <main>
+          <article>
+              <h2>My First Blog Post</h2>
+              <div class="post-meta">Posted on July 1, 2023 by John Doe</div>
+              <p>Welcome to my first blog post! Here, I'll be sharing my thoughts on various topics.</p>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          </article>
+      </main>
+  </body>
+  </html>
+            `;
+            break;
+          case 'portfolio':
+            template = `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>My Portfolio</title>
+      <style>
+          body {
+              font-family: Arial, sans-serif;
+              line-height: 1.6;
+              margin: 0;
+              padding: 0;
+          }
+          header {
+              background-color: #333;
+              color: #fff;
+              text-align: center;
+              padding: 1rem;
+          }
+          .container {
+              width: 80%;
+              margin: auto;
+              overflow: hidden;
+              padding: 20px;
+          }
+          .project {
+              background: #f4f4f4;
+              border: 1px solid #ccc;
+              padding: 10px;
+              margin-bottom: 10px;
+          }
+      </style>
+  </head>
+  <body>
+      <header>
+          <h1>John Doe's Portfolio</h1>
+      </header>
+      <div class="container">
+          <section id="about">
+              <h2>About Me</h2>
+              <p>I'm a web developer passionate about creating beautiful and functional websites.</p>
+          </section>
+          <section id="projects">
+              <h2>My Projects</h2>
+              <div class="project">
+                  <h3>Project 1</h3>
+                  <p>Description of project 1 goes here.</p>
+              </div>
+              <div class="project">
+                  <h3>Project 2</h3>
+                  <p>Description of project 2 goes here.</p>
+              </div>
+          </section>
+      </div>
+  </body>
+  </html>
+            `;
+            break;
+        }
+        document.getElementById('code-editor').value = template;
+        updatePreview();
+      }
+  
+      // Initialize with a blank template
+      loadTemplate('blank');
+    </script>
+  </body>
+  </html>
